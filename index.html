@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pierre Thierry – Technicien Systèmes & Réseaux</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #F7F6F3;
+      --bg2:        #EEECEA;
+      --ink:        #18181A;
+      --ink2:       #5A5A62;
+      --rule:       #DDDBD8;
+      --accent:     #1B4FFF;
+      --accent-bg:  #EEF2FF;
+      --white:      #FFFFFF;
+      --radius:     10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(247,246,243,.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 58px;
+    }
+    .nav-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: .95rem;
+      color: var(--ink); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: .2rem; list-style: none; }
+    .nav-links a {
+      padding: .4rem .85rem; border-radius: 6px;
+      font-size: .83rem; font-weight: 500;
+      color: var(--ink2); text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .nav-links a:hover { background: var(--bg2); color: var(--ink); }
+    .nav-contact { background: var(--ink); color: var(--white) !important; border-radius: 6px; }
+    .nav-contact:hover { background: var(--accent) !important; color: var(--white) !important; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 4rem;
+      max-width: 1020px; margin: 0 auto;
+      padding: 7rem 2.5rem 4rem;
+    }
+    .hero-status {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .78rem; font-weight: 500; color: var(--accent);
+      border: 1px solid #C7D4FF; background: var(--accent-bg);
+      border-radius: 20px; padding: .28rem .9rem;
+      margin-bottom: 1.6rem; letter-spacing: .03em;
+    }
+    .pulse {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+      font-weight: 800; line-height: 1.08;
+      letter-spacing: -.03em; margin-bottom: 1.3rem;
+    }
+    .hero-title .accent { color: var(--accent); }
+    .hero-desc {
+      color: var(--ink2); font-size: 1.02rem;
+      max-width: 440px; line-height: 1.75; margin-bottom: 2rem;
+    }
+    .hero-cta { display: flex; gap: .8rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .7rem 1.4rem; border-radius: 8px;
+      font-size: .88rem; font-weight: 500;
+      text-decoration: none; transition: all .2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-dark { background: var(--ink); color: var(--white); }
+    .btn-dark:hover { background: var(--accent); }
+    .btn-outline { border: 1.5px solid var(--rule); color: var(--ink2); }
+    .btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+
+    .hero-card {
+      background: var(--white); border: 1px solid var(--rule);
+      border-radius: 16px; padding: 2rem;
+      display: flex; flex-direction: column; gap: 1.2rem;
+    }
+    .hero-card-label {
+      font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink2); font-weight: 500; margin-bottom: .2rem;
+    }
+    .stat-row { display: flex; gap: .8rem; }
+    .stat {
+      flex: 1; background: var(--bg); border-radius: 8px;
+      padding: 1rem; text-align: center;
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.7rem; font-weight: 800; color: var(--ink); line-height: 1;
+    }
+    .stat-label { font-size: .74rem; color: var(--ink2); margin-top: .3rem; }
+    .cert-mini {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .75rem; background: var(--bg); border-radius: 8px;
+    }
+    .cert-mini + .cert-mini { margin-top: .6rem; }
+    .cert-mini-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--accent-bg); display: flex; align-items: center;
+      justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .cert-mini-name { font-size: .85rem; font-weight: 500; }
+    .cert-mini-issuer { font-size: .73rem; color: var(--ink2); }
+
+    /* ── LAYOUT ── */
+    .sep { border: none; border-top: 1px solid var(--rule); max-width: 1020px; margin: 0 auto; }
+    .section-wrap { max-width: 1020px; margin: 0 auto; padding: 5rem 2.5rem; }
+    .eyebrow {
+      font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500; margin-bottom: .5rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem; font-weight: 800;
+      letter-spacing: -.025em; margin-bottom: 2.5rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 3.5rem; align-items: start; }
+    .about-body { color: var(--ink2); line-height: 1.8; }
+    .about-body p + p { margin-top: .9rem; }
+    .about-body strong { color: var(--ink); font-weight: 500; }
+    .info-card {
+      background: var(--white); border: 1px solid var(--rule);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .info-row {
+      display: flex; align-items: center; gap: .85rem;
+      padding: .85rem 1.1rem; border-bottom: 1px solid var(--rule);
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-icon { font-size: 1rem; width: 22px; text-align: center; flex-shrink: 0; }
+    .info-key { font-size: .72rem; color: var(--ink2); }
+    .info-val { font-size: .88rem; font-weight: 500; margin-top: .05rem; }
+
+    /* ── PARCOURS (timeline) ── */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .tl-item { display: grid; grid-template-columns: 120px 1fr; gap: 2rem; }
+    .tl-item + .tl-item { margin-top: 0; }
+    .tl-left { text-align: right; padding-top: 1.6rem; }
+    .tl-date { font-size: .78rem; color: var(--ink2); font-weight: 500; }
+    .tl-right {
+      border-left: 2px solid var(--rule); padding: 1.4rem 0 1.4rem 2rem;
+      position: relative;
+    }
+    .tl-right::before {
+      content: ''; position: absolute; left: -7px; top: 1.8rem;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--white); border: 2px solid var(--accent);
+    }
+    .tl-current .tl-right::before { background: var(--accent); }
+    .tl-badge {
+      display: inline-block; font-size: .72rem; font-weight: 500;
+      padding: .2rem .7rem; border-radius: 20px; margin-bottom: .5rem;
+      border: 1px solid var(--rule); color: var(--ink2);
+    }
+    .tl-current .tl-badge { background: var(--accent-bg); color: var(--accent); border-color: #C7D4FF; }
+    .tl-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: .2rem; }
+    .tl-sub { font-size: .82rem; color: var(--ink2); margin-bottom: .6rem; }
+    .tl-desc { font-size: .87rem; color: var(--ink2); line-height: 1.7; }
+
+    /* ── SKILLS ── */
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .skill-card {
+      background: var(--white); border: 1px solid var(--rule);
+      border-radius: var(--radius); padding: 1.3rem;
+    }
+    .skill-card-icon { font-size: 1.5rem; margin-bottom: .7rem; }
+    .skill-card-title { font-weight: 600; font-size: .9rem; margin-bottom: .5rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .stag {
+      font-size: .73rem; padding: .22rem .6rem; border-radius: 4px;
+      background: var(--bg2); color: var(--ink2); font-weight: 500;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-list { display: flex; flex-direction: column; gap: 1.2rem; }
+    .project-card {
+      background: var(--white); border: 1px solid var(--rule);
+      border-radius: var(--radius); padding: 1.8rem;
+      display: grid; grid-template-columns: auto 1fr auto;
+      gap: 1.4rem; align-items: start;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .project-card:hover { border-color: var(--accent); box-shadow: 0 4px 24px rgba(27,79,255,.07); }
+    .project-num {
+      font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800;
+      color: var(--rule); padding-top: .15rem; min-width: 32px;
+    }
+    .project-context { font-size: .78rem; color: var(--accent); font-weight: 500; margin-bottom: .4rem; }
+    .project-title { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: .5rem; }
+    .project-desc { color: var(--ink2); font-size: .9rem; line-height: 1.7; margin-bottom: .9rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .ptag {
+      font-size: .73rem; padding: .22rem .65rem; border-radius: 4px;
+      background: var(--accent-bg); color: var(--accent); font-weight: 500;
+    }
+    .project-badge {
+      font-size: .72rem; font-weight: 500; padding: .3rem .75rem;
+      border-radius: 20px; border: 1px solid var(--rule);
+      color: var(--ink2); white-space: nowrap; height: fit-content;
+    }
+
+    /* ── STAGE ── */
+    .stage-card {
+      background: var(--white); border: 1px solid var(--rule);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .stage-header {
+      padding: 1.6rem 2rem;
+      border-bottom: 1px solid var(--rule);
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;
+    }
+    .stage-header-left {}
+    .stage-org { font-size: .75rem; font-weight: 500; color: var(--accent); letter-spacing: .05em; text-transform: uppercase; margin-bottom: .3rem; }
+    .stage-title { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; margin-bottom: .2rem; }
+    .stage-sub { font-size: .83rem; color: var(--ink2); }
+    .stage-pill {
+      background: #FFF3E0; color: #E65100;
+      border: 1px solid #FFD0A0; border-radius: 20px;
+      font-size: .75rem; font-weight: 500; padding: .3rem .9rem;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .stage-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .stage-col { padding: 1.6rem 2rem; }
+    .stage-col + .stage-col { border-left: 1px solid var(--rule); }
+    .stage-col-label {
+      font-size: .72rem; color: var(--ink2); font-weight: 500;
+      text-transform: uppercase; letter-spacing: .1em; margin-bottom: .9rem;
+    }
+    .stage-desc-text { font-size: .88rem; color: var(--ink2); line-height: 1.75; }
+    .stage-missions { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .stage-missions li {
+      display: flex; align-items: flex-start; gap: .6rem;
+      font-size: .87rem; color: var(--ink2);
+    }
+    .stage-missions li::before { content: '→'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+    /* ── CERTIFICATIONS ── */
+    .certs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .cert-card {
+      background: var(--white); border: 1px solid var(--rule);
+      border-radius: var(--radius); padding: 1.6rem;
+      text-decoration: none; color: var(--ink);
+      transition: border-color .2s, transform .2s;
+      display: flex; flex-direction: column; gap: .6rem;
+    }
+    .cert-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .cert-icon { font-size: 1.8rem; }
+    .cert-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; }
+    .cert-issuer { font-size: .78rem; color: var(--ink2); }
+    .cert-desc-text { font-size: .85rem; color: var(--ink2); line-height: 1.6; }
+    .cert-cta { font-size: .8rem; color: var(--accent); font-weight: 500; margin-top: .3rem; }
+
+    /* ── CONTACT ── */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+    .contact-intro { color: var(--ink2); line-height: 1.8; margin-bottom: 1.5rem; font-size: .95rem; }
+    .contact-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 1.1rem;
+      background: var(--white); border: 1px solid var(--rule);
+      border-radius: var(--radius); text-decoration: none; color: var(--ink);
+      transition: border-color .2s;
+    }
+    .contact-item + .contact-item { margin-top: .8rem; }
+    .contact-item:hover { border-color: var(--accent); }
+    .contact-item-icon { font-size: 1.1rem; }
+    .contact-item-label { font-size: .72rem; color: var(--ink2); }
+    .contact-item-val { font-size: .88rem; font-weight: 500; }
+    .recherche-card {
+      background: var(--white); border: 1px solid var(--rule);
+      border-radius: var(--radius); padding: 1.8rem;
+    }
+    .recherche-card-title {
+      font-family: 'Syne', sans-serif; font-size: .95rem; font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .recherche-item {
+      display: flex; align-items: center; gap: .75rem;
+      font-size: .88rem; padding: .5rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .recherche-item:last-child { border-bottom: none; }
+    .recherche-item span:first-child { color: var(--accent); font-weight: 700; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 1.8rem 2rem;
+      font-size: .78rem; color: var(--ink2);
+      border-top: 1px solid var(--rule);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      #hero { grid-template-columns: 1fr; gap: 2rem; padding-top: 6rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .certs-grid { grid-template-columns: 1fr; }
+      .project-card { grid-template-columns: 1fr; }
+      .project-num { display: none; }
+      .stage-body { grid-template-columns: 1fr; }
+      .stage-col + .stage-col { border-left: none; border-top: 1px solid var(--rule); }
+      .tl-item { grid-template-columns: 80px 1fr; gap: 1rem; }
+      nav { padding: 0 1.2rem; }
+      .nav-links li:not(:last-child) { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-name" href="#hero">Pierre Thierry</a>
+  <ul class="nav-links">
+    <li><a href="#about">Profil</a></li>
+    <li><a href="#parcours">Parcours</a></li>
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#stage">Stage</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#contact" class="nav-contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div>
+    <div class="hero-status"><span class="pulse"></span> En stage · Fondation Rothschild · Paris</div>
+    <h1 class="hero-title">
+      Technicien<br>
+      <span class="accent">Systèmes</span><br>
+      & Réseaux
+    </h1>
+    <p class="hero-desc">
+      BTS SIO SISR obtenu, actuellement en Bachelor informatique et en stage à la Fondation Rothschild. Je recherche une <strong>alternance</strong> pour la rentrée prochaine.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-dark">Voir mes projets</a>
+      <a href="#contact" class="btn btn-outline">Me contacter</a>
+    </div>
+  </div>
+
+  <div class="hero-card">
+    <div>
+      <div class="hero-card-label">En chiffres</div>
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-num">5</div>
+          <div class="stat-label">Projets réalisés</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Certifications</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Ans de formation</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="hero-card-label">Certifications obtenues</div>
+      <div class="cert-mini">
+        <div class="cert-mini-icon">🖧</div>
+        <div>
+          <div class="cert-mini-name">MTCNA</div>
+          <div class="cert-mini-issuer">MikroTik Certified Network Associate</div>
+        </div>
+      </div>
+      <div class="cert-mini">
+        <div class="cert-mini-icon">🔒</div>
+        <div>
+          <div class="cert-mini-name">MOOC RGPD</div>
+          <div class="cert-mini-issuer">CNIL – Protection des données</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep" />
+
+<!-- ABOUT -->
+<div class="section-wrap" id="about">
+  <p class="eyebrow">Profil</p>
+  <h2 class="section-title">À propos de moi</h2>
+  <div class="about-grid">
+    <div class="about-body">
+      <p>Je suis <strong>NGONO ASSOGO Pierre Thierry</strong>, 22 ans, originaire de <strong>Yaoundé (Cameroun)</strong>. Après l'obtention de mon <strong>BTS SIO option SISR</strong> à l'ITIC Paris, je poursuis actuellement un <strong>Bachelor en informatique</strong>.</p>
+      <p>Je suis en stage à la <strong>Fondation Rothschild</strong> à Paris, où j'applique mes compétences en systèmes et réseaux dans un environnement professionnel exigeant. Cette expérience renforce ma maîtrise de l'administration des infrastructures et du support technique.</p>
+      <p>Passionné par les environnements systèmes — Windows Server, Linux, virtualisation et services réseau — je recherche une <strong>alternance pour la prochaine rentrée</strong> afin de continuer à progresser tout en contribuant à des projets concrets.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-row">
+        <span class="info-icon">🎓</span>
+        <div>
+          <div class="info-key">Formation actuelle</div>
+          <div class="info-val">Bachelor Informatique</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">✅</span>
+        <div>
+          <div class="info-key">Diplôme obtenu</div>
+          <div class="info-val">BTS SIO – SISR</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">🏥</span>
+        <div>
+          <div class="info-key">Stage actuel</div>
+          <div class="info-val">Fondation Rothschild</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">📍</span>
+        <div>
+          <div class="info-key">Localisation</div>
+          <div class="info-val">Paris, France</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">🔍</span>
+        <div>
+          <div class="info-key">Recherche</div>
+          <div class="info-val">Alternance – rentrée prochaine</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="sep" />
+
+<!-- PARCOURS -->
+<div class="section-wrap" id="parcours">
+  <p class="eyebrow">Parcours</p>
+  <h2 class="section-title">Mon parcours</h2>
+  <div class="timeline">
+    <div class="tl-item tl-current">
+      <div class="tl-left"><div class="tl-date">2024 – Aujourd'hui</div></div>
+      <div class="tl-right">
+        <span class="tl-badge">En cours</span>
+        <div class="tl-title">Bachelor Informatique</div>
+        <div class="tl-sub">ITIC Paris · Paris</div>
+        <div class="tl-desc">Approfondissement des compétences en systèmes, réseaux et management de projets informatiques. Poursuite d'études après l'obtention du BTS SIO SISR.</div>
+      </div>
+    </div>
+    <div class="tl-item tl-current">
+      <div class="tl-left"><div class="tl-date">2025 · En cours</div></div>
+      <div class="tl-right">
+        <span class="tl-badge">Stage actuel</span>
+        <div class="tl-title">Technicien Systèmes & Réseaux</div>
+        <div class="tl-sub">Fondation Rothschild · Paris</div>
+        <div class="tl-desc">Stage au sein du service informatique de la Fondation Rothschild — administration des systèmes, support utilisateurs et gestion de l'infrastructure réseau.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-date">2022 – 2024</div></div>
+      <div class="tl-right">
+        <span class="tl-badge">Diplôme obtenu</span>
+        <div class="tl-title">BTS SIO – option SISR</div>
+        <div class="tl-sub">ITIC Paris · Paris</div>
+        <div class="tl-desc">Formation en Services Informatiques aux Organisations, spécialité Solutions d'Infrastructure, Systèmes et Réseaux. Certification MTCNA et MOOC RGPD obtenues durant cette période.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-date">Avant 2022</div></div>
+      <div class="tl-right">
+        <span class="tl-badge">Origine</span>
+        <div class="tl-title">Formation initiale</div>
+        <div class="tl-sub">Yaoundé, Cameroun</div>
+        <div class="tl-desc">Scolarité et premières bases en informatique avant l'arrivée en France pour poursuivre des études spécialisées dans les systèmes et réseaux.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="sep" />
+
+<!-- SKILLS -->
+<div class="section-wrap" id="skills">
+  <p class="eyebrow">Compétences</p>
+  <h2 class="section-title">Ce que je maîtrise</h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-card-icon">🖥️</div>
+      <div class="skill-card-title">Systèmes Windows</div>
+      <div class="skill-tags">
+        <span class="stag">Windows Server</span>
+        <span class="stag">Active Directory</span>
+        <span class="stag">GPO</span>
+        <span class="stag">WSUS</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🐧</div>
+      <div class="skill-card-title">Systèmes Linux</div>
+      <div class="skill-tags">
+        <span class="stag">Ubuntu</span>
+        <span class="stag">Debian</span>
+        <span class="stag">CLI</span>
+        <span class="stag">Bash</span>
+        <span class="stag">SSH</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🌐</div>
+      <div class="skill-card-title">Services Réseau</div>
+      <div class="skill-tags">
+        <span class="stag">DHCP</span>
+        <span class="stag">DNS</span>
+        <span class="stag">TCP/IP</span>
+        <span class="stag">VLAN</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">⚙️</div>
+      <div class="skill-card-title">Virtualisation</div>
+      <div class="skill-tags">
+        <span class="stag">VMware</span>
+        <span class="stag">VirtualBox</span>
+        <span class="stag">Hyper-V</span>
+        <span class="stag">Snapshots</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">💾</div>
+      <div class="skill-card-title">Sauvegarde & PRA</div>
+      <div class="skill-tags">
+        <span class="stag">Windows Backup</span>
+        <span class="stag">Veeam</span>
+        <span class="stag">Plan PRA</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🔐</div>
+      <div class="skill-card-title">Sécurité & RGPD</div>
+      <div class="skill-tags">
+        <span class="stag">MikroTik</span>
+        <span class="stag">Firewall</span>
+        <span class="stag">RGPD</span>
+        <span class="stag">CNIL</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="sep" />
+
+<!-- PROJECTS -->
+<div class="section-wrap" id="projects">
+  <p class="eyebrow">Réalisations</p>
+  <h2 class="section-title">Projets réalisés en formation</h2>
+  <div class="projects-list">
+
+    <div class="project-card">
+      <div class="project-num">01</div>
+      <div>
+        <div class="project-context">BTS SIO SISR – Projet infrastructure</div>
+        <div class="project-title">Déploiement d'un Active Directory sous Windows Server</div>
+        <div class="project-desc">Mise en place d'un domaine Active Directory complet avec création d'unités organisationnelles (OU), gestion des utilisateurs et groupes, et application de politiques de groupe (GPO) pour sécuriser et automatiser la gestion des postes clients.</div>
+        <div class="project-tags">
+          <span class="ptag">Windows Server</span><span class="ptag">Active Directory</span><span class="ptag">GPO</span><span class="ptag">DNS</span>
+        </div>
+      </div>
+      <div class="project-badge">Systèmes</div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">02</div>
+      <div>
+        <div class="project-context">BTS SIO SISR – Services réseau</div>
+        <div class="project-title">Configuration des services DHCP et DNS</div>
+        <div class="project-desc">Installation et configuration d'un serveur DHCP pour l'attribution automatique des adresses IP sur le réseau local, couplé à un serveur DNS pour la résolution de noms. Tests de connectivité et documentation technique.</div>
+        <div class="project-tags">
+          <span class="ptag">DHCP</span><span class="ptag">DNS</span><span class="ptag">Windows Server</span><span class="ptag">TCP/IP</span>
+        </div>
+      </div>
+      <div class="project-badge">Réseau</div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">03</div>
+      <div>
+        <div class="project-context">BTS SIO SISR – Virtualisation</div>
+        <div class="project-title">Infrastructure virtualisée d'entreprise</div>
+        <div class="project-desc">Déploiement de plusieurs machines virtuelles simulant un réseau d'entreprise complet : serveur Windows, poste client, routeur. Configuration des réseaux internes, NAT et partage de ressources entre VMs.</div>
+        <div class="project-tags">
+          <span class="ptag">VMware</span><span class="ptag">VirtualBox</span><span class="ptag">Hyper-V</span><span class="ptag">Réseaux virtuels</span>
+        </div>
+      </div>
+      <div class="project-badge">Virtualisation</div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">04</div>
+      <div>
+        <div class="project-context">BTS SIO SISR – Linux</div>
+        <div class="project-title">Administration d'un serveur Linux Debian/Ubuntu</div>
+        <div class="project-desc">Installation et configuration d'un serveur Linux en ligne de commande : gestion des utilisateurs, droits d'accès, services (SSH, Apache), et automatisation de tâches via scripts Bash.</div>
+        <div class="project-tags">
+          <span class="ptag">Debian</span><span class="ptag">Ubuntu</span><span class="ptag">Bash</span><span class="ptag">SSH</span><span class="ptag">Apache</span>
+        </div>
+      </div>
+      <div class="project-badge">Systèmes</div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">05</div>
+      <div>
+        <div class="project-context">BTS SIO SISR – Continuité de service</div>
+        <div class="project-title">Plan de sauvegarde et restauration (PRA)</div>
+        <div class="project-desc">Mise en œuvre d'une politique de sauvegarde complète pour un environnement serveur : définition du plan (complète, incrémentielle, différentielle), tests de restauration, et documentation du Plan de Reprise d'Activité.</div>
+        <div class="project-tags">
+          <span class="ptag">Sauvegarde</span><span class="ptag">Restauration</span><span class="ptag">PRA</span><span class="ptag">Windows Backup</span>
+        </div>
+      </div>
+      <div class="project-badge">Continuité</div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="sep" />
+
+<!-- STAGE -->
+<div class="section-wrap" id="stage">
+  <p class="eyebrow">Expérience professionnelle</p>
+  <h2 class="section-title">Stage en cours</h2>
+  <div class="stage-card">
+    <div class="stage-header">
+      <div class="stage-header-left">
+        <div class="stage-org">Fondation Rothschild · Paris</div>
+        <div class="stage-title">Technicien Systèmes & Réseaux</div>
+        <div class="stage-sub">Stage · Bachelor Informatique · 2025</div>
+      </div>
+      <div class="stage-pill">🔄 En cours</div>
+    </div>
+    <div class="stage-body">
+      <div class="stage-col">
+        <div class="stage-col-label">Contexte</div>
+        <div class="stage-desc-text">
+          La Fondation Rothschild est un acteur majeur de la santé et du médico-social à Paris. Au sein du service informatique, j'interviens sur l'infrastructure systèmes et réseaux pour assurer le bon fonctionnement des équipements et accompagner les utilisateurs au quotidien.
+        </div>
+      </div>
+      <div class="stage-col">
+        <div class="stage-col-label">Missions réalisées</div>
+        <ul class="stage-missions">
+          <li>Support technique et assistance aux utilisateurs</li>
+          <li>Administration des postes de travail et équipements</li>
+          <li>Intervention sur l'infrastructure réseau</li>
+          <li>Gestion des incidents et suivi des tickets</li>
+          <li>Documentation technique des interventions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="sep" />
+
+<!-- CERTIFICATIONS -->
+<div class="section-wrap" id="certifications">
+  <p class="eyebrow">Certifications</p>
+  <h2 class="section-title">Certifications obtenues</h2>
+  <div class="certs-grid">
+    <a class="cert-card" href="https://drive.google.com/file/d/1XUR7QusNckxQ1bMZYagENHKSF584fMkx/view?usp=sharing" target="_blank">
+      <div class="cert-icon">🖧</div>
+      <div class="cert-name">MTCNA</div>
+      <div class="cert-issuer">MikroTik · Certification officielle</div>
+      <div class="cert-desc-text">MikroTik Certified Network Associate — maîtrise de la configuration et de l'administration de routeurs MikroTik, gestion des interfaces, firewall et services réseau.</div>
+      <span class="cert-cta">Voir le certificat ↗</span>
+    </a>
+    <a class="cert-card" href="https://drive.google.com/file/d/1XUR7QusNckxQ1bMZYagENHKSF584fMkx/view?usp=sharing" target="_blank">
+      <div class="cert-icon">🔒</div>
+      <div class="cert-name">MOOC RGPD</div>
+      <div class="cert-issuer">CNIL · Formation en ligne</div>
+      <div class="cert-desc-text">Formation complète sur le Règlement Général sur la Protection des Données : droits des personnes, obligations des organismes, et mise en conformité des traitements de données.</div>
+      <span class="cert-cta">Voir le certificat ↗</span>
+    </a>
+  </div>
+</div>
+
+<hr class="sep" />
+
+<!-- CONTACT -->
+<div class="section-wrap" id="contact">
+  <p class="eyebrow">Contact</p>
+  <h2 class="section-title">Je recherche une alternance</h2>
+  <div class="contact-grid">
+    <div>
+      <p class="contact-intro">
+        BTS SIO SISR en poche, Bachelor en cours et stage à la Fondation Rothschild — je suis disponible pour une <strong>alternance dès la prochaine rentrée</strong> dans le domaine des systèmes, réseaux ou support infrastructure.
+      </p>
+      <a class="contact-item" href="mailto:ngonoassogop@gmail.com">
+        <span class="contact-item-icon">✉️</span>
+        <div>
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-val">ngonoassogop@gmail.com</div>
+        </div>
+      </a>
+      <a class="contact-item" href="https://github.com/" target="_blank">
+        <span class="contact-item-icon">🐙</span>
+        <div>
+          <div class="contact-item-label">GitHub</div>
+          <div class="contact-item-val">Mon profil GitHub</div>
+        </div>
+      </a>
+    </div>
+    <div class="recherche-card">
+      <div class="recherche-card-title">Ce que je recherche</div>
+      <div class="recherche-item"><span>→</span> Alternance – rentrée 2025</div>
+      <div class="recherche-item"><span>→</span> Administration systèmes & réseaux</div>
+      <div class="recherche-item"><span>→</span> Support technique N1 / N2</div>
+      <div class="recherche-item"><span>→</span> Infrastructure & virtualisation</div>
+      <div class="recherche-item"><span>→</span> Basé à Paris</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2025 NGONO ASSOGO Pierre Thierry · Bachelor Informatique · Fondation Rothschild
+</footer>
+
+</body>
+</html>
